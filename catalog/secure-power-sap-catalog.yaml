@@ -757,7 +757,7 @@ inputs:
     type: string
     required: true
   - name: region
-    default: syd05
+    default: us-east
     type: string
     description: Region where vpc will be created
     optional: true
@@ -769,9 +769,11 @@ modules:
   - name: secure-infrastructure
     module_type: terraform
     source:
-      source_type: github
-      git:
-        git_repo_url: "https://github.com/terraform-ibm-modules/terraform-ibm-landing-zone/tree/main/patterns/vsi"
+      source_type: ibm_cloud_catalog
+      catalog:
+        catalog_id: "5aeec28a-8658-4f07-9cf6-2a27400c4696"
+        offering_name: "Secure infrastructure on VPC for regulated industries"
+        offering_version: "v1.10.3"
     inputs:
       - name: ibmcloud_api_key
         value: $blueprint.ibmcloud_api_key
@@ -793,9 +795,11 @@ modules:
     layer: infrastructure
     module_type: terraform
     source:
-      source_type: github
-      git:
-        git_repo_url: "https://github.com/terraform-ibm-modules/terraform-ibm-powervs-infrastructure/tree/main/examples/ibm-catalog/standard-solution"
+      source_type: ibm_cloud_catalog
+      catalog:
+        catalog_id: "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc"
+        offering_name: "Power infrastructure for regulated industries"
+        offering_version: "v5.2.0"
     inputs:
       - name: prerequisite_workspace_id
         value: $module.secure-infrastructure.schematics_workspace_id
@@ -818,9 +822,11 @@ modules:
     layer: software
     module_type: terraform
     source:
-      source_type: github
-      git:
-        git_repo_url: "https://github.com/terraform-ibm-modules/terraform-ibm-powervs-sap/tree/main/examples/ibm-catalog/prepared-system-solution"
+      source_type: ibm_cloud_catalog
+      catalog:
+        catalog_id: "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc"
+        offering_name: "SAP on secure Power Virtual Servers"
+        offering_version: "v3.1.0"
     inputs:
       - name: prerequisite_workspace_id
         value: $module.power-infrastructure.powervs_workspace_name_id
